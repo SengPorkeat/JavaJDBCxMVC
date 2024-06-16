@@ -25,7 +25,7 @@ public class CustomerController {
         String email = new Scanner(System.in).nextLine();
         System.out.print("Customer Password: ");
         String password = new Scanner(System.in).nextLine();
-        System.out.println("Customer Bio: ");
+        System.out.print("Customer Bio: ");
         String bio = new Scanner(System.in).nextLine();
         new CustomerServiceImpl().addNewCustomer(Customer.builder()
                             .id(1)
