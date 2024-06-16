@@ -60,12 +60,12 @@ public class ProductController {
         }
     }
 
-    public void updateProductById() throws ExceptionHandling {
+    public void updateProduct() throws ExceptionHandling {
         System.out.println("Product ID: ");
         productService.updateProductById(new Scanner(System.in).nextInt());
     }
 
-    public void deleteProductById() throws ExceptionHandling {
+    public void deleteProduct(){
         System.out.println("Product ID: ");
         productService.deleteProductById(new Scanner(System.in).nextInt());
     }

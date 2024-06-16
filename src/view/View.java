@@ -1,123 +1,123 @@
 package view;
 
 import controller.CustomerController;
-import mapper.CustomerMapper;
-import model.dao.CustomerDaoImpl;
-import model.dao.OrderDaoImpl;
-import model.entity.Customer;
-import model.entity.Order;
+import controller.OrderController;
+import controller.ProductController;
+import exception.ExceptionHandling;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class View {
-    private final CustomerController customerController = new CustomerController();
-    public static void addMenu(){
-        System.out.println("=".repeat(23)+"| Add System |"+"=".repeat(23));
-        System.out.println("1. Add new customer");
-        System.out.println("2. Add new order");
-        System.out.println("=".repeat(60));
-        System.out.print("Choose your option: ");
-        int op = new Scanner(System.in).nextInt();
-        System.out.println("=".repeat(60));
-        switch (op) {
-            case 1->{}
-            case 2->{
-                System.out.print("Order Name: ");
-                String orderName = new Scanner(System.in).nextLine();
-                System.out.print("Order Description: ");
-                String orderDescription = new Scanner(System.in).nextLine();
-                new OrderDaoImpl().addNewOrder(new Order(1,
-                        orderName,
-                        orderDescription,
-                        Customer.builder()
-                                .id(8)
-                                .build(),
-                        new ArrayList<>(),
-                        Date.valueOf(LocalDate.now())));
+    private static final CustomerController customerController = new CustomerController();
+    private static final OrderController orderController = new OrderController();
+    private static final ProductController productController = new ProductController();
 
-            }
-        }
-    }
-    public static void showAll(){
-        System.out.println("=".repeat(23)+"| Add System |"+"=".repeat(23));
-        System.out.println("1. Show all customer");
-        System.out.println("2. Show all order");
-        System.out.println("=".repeat(60));
-        System.out.print("Choose your option: ");
-        int op = new Scanner(System.in).nextInt();
-        System.out.println("=".repeat(60));
-        switch (op) {
-            case 1->
-                new CustomerDaoImpl().queryAllCustomers()
-                        .stream()
-                        .map(CustomerMapper::mapCustomerToCustomerDto)
-                        .forEach(System.out::println);
-            case 2-> new OrderDaoImpl().queryAllOrders().forEach(System.out::println);
-        }
-    }
-    public static void delete(){
-        System.out.println("=".repeat(22)+"| Delete System |"+"=".repeat(21));
-        System.out.println("1. Delete customer");
-        System.out.println("2. Delete order");
-        System.out.println("=".repeat(60));
-        System.out.print("Choose your option: ");
-        int op = new Scanner(System.in).nextInt();
-        System.out.println("=".repeat(60));
-        switch (op) {
-            case 1-> {
-                System.out.print("Delete by ID: ");
-                int id = new Scanner(System.in).nextInt();
-                new CustomerDaoImpl().deleteCustomerById(id);
-            }
-            case 2-> {
-                System.out.print("Delete by ID: ");
-                int id = new Scanner(System.in).nextInt();
-                new OrderDaoImpl().deleteOrderById(id);
-            }
-        }
-    }
-    public static void update(){
-        System.out.println("=".repeat(22)+"| Update System |"+"=".repeat(21));
-        System.out.println("1. Update customer");
-        System.out.println("2. Update order");
-        System.out.println("=".repeat(60));
-        System.out.print("Choose your option: ");
-        int op = new Scanner(System.in).nextInt();
-        System.out.println("=".repeat(60));
-        switch (op) {
-            case 1-> {
-                System.out.print("Update by ID: ");
-                int id = new Scanner(System.in).nextInt();
-                new CustomerDaoImpl().updateCustomerById(id);
-            }
-            case 2-> {
-                System.out.print("Update by ID: ");
-                int id = new Scanner(System.in).nextInt();
-                new OrderDaoImpl().updateOrder(id);
-            }
-        }
-    }
-    public static void menu(){
-        System.out.println("=".repeat(20)+"| Customer Service |"+"=".repeat(20));
-        System.out.println("1. Show all customer");
-        System.out.println("2. Add new customer");
-        System.out.println("3. Update customer");
-        System.out.println("4. Delete customer");
-        System.out.println("0. Exit");
+    public static void menu() throws ExceptionHandling {
         while (true) {
-            System.out.println("=".repeat(60));
-            System.out.print("Choose your option: ");
+            System.out.println("============| Food Panda |============");
+            System.out.println("1. Display All Data");
+            System.out.println("2. Add New Data");
+            System.out.println("3. Update Data");
+            System.out.println("4. Delete Data");
+            System.out.println("0. Exit");
+            System.out.println( "=".repeat(38));
+            System.out.print("[+] Choose your option: ");
             int op = new Scanner(System.in).nextInt();
-            System.out.println("=".repeat(60));
-            switch (op) {
-                case 1-> showAll();
-                case 2-> addMenu();
-                case 3-> update();
-                case 4-> delete();
-                case 0-> System.exit(0);
+            switch(op){
+                case 1->queryAllData();
+                case 2->addNewData();
+                case 3->updateData();
+                case 4->deleteData();
+                case 0->System.exit(0);
+                default -> System.out.println("[+] Invalid option !");
+            }
+        }
+    }
+
+    public static void deleteData() throws ExceptionHandling{
+        while (true) {
+            System.out.println("===========| Delete System |===========");
+            System.out.println("1. Delete Customer");
+            System.out.println("2. Delete Order");
+            System.out.println("3. Delete Product");
+            System.out.println("0. Exit");
+            System.out.println( "=".repeat(38));
+            System.out.print("[+] Choose your option: ");
+            int op = new Scanner(System.in).nextInt();
+            switch(op){
+                case 1->customerController.deleteCustomer();
+                case 2->orderController.deleteOrder();
+                case 3->productController.deleteProduct();
+                case 0-> {
+                    return;
+                }
+                default -> System.out.println("[+] Invalid option !");
+            }
+        }
+    }
+
+    public static void updateData() throws ExceptionHandling {
+        while (true) {
+            System.out.println("===========| Update System |===========");
+            System.out.println("1. Update Customer");
+            System.out.println("2. Update Order");
+            System.out.println("3. Update Product");
+            System.out.println("0. Exit");
+            System.out.println( "=".repeat(38));
+            System.out.print("[+] Choose your option: ");
+            int op = new Scanner(System.in).nextInt();
+            switch(op){
+                case 1->customerController.updateCustomer();
+                case 2->orderController.updateOrder();
+                case 3->productController.updateProduct();
+                case 0-> {
+                    return;
+                }
+                default -> System.out.println("[+] Invalid option !");
+            }
+        }
+    }
+
+    public static void addNewData() throws ExceptionHandling {
+        while (true) {
+            System.out.println("============| Add System |============");
+            System.out.println("1. Add New Customer");
+            System.out.println("2. Add New Order");
+            System.out.println("3. Add New Product");
+            System.out.println("0. Back");
+            System.out.println( "=".repeat(38));
+            System.out.print("[+] Choose your option: ");
+            int op = new Scanner(System.in).nextInt();
+            switch(op){
+                case 1->customerController.addNewCustomer();
+                case 2->orderController.addNewOrder();
+                case 3->productController.addNewProduct();
+                case 0-> {
+                    return;
+                }
+                default -> System.out.println("[+] Invalid option !");
+            }
+        }
+    }
+
+    public static void queryAllData() throws ExceptionHandling {
+        while(true){
+            System.out.println("==========| Display System |==========");
+            System.out.println("1. Display All Customers");
+            System.out.println("2. Display All Orders");
+            System.out.println("3. Display All Products");
+            System.out.println("0. Back");
+            System.out.println("=".repeat(38));
+            System.out.print("[+] Choose your option: ");
+            int op = new Scanner(System.in).nextInt();
+            switch(op){
+                case 1-> customerController.queryAllCustomers();
+                case 2-> orderController.queryAllOrders();
+                case 3-> productController.queryAllProducts();
+                case 0 -> {
+                    return;
+                }
+                default -> System.out.println("[+] Invalid option !");
             }
         }
     }

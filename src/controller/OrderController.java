@@ -48,6 +48,11 @@ public class OrderController {
                 .build());
     }
 
+    public void deleteOrder(){
+        System.out.println("Order ID: ");
+        new OrderServiceImpl().deleteOrderById(new Scanner(System.in).nextInt());
+    }
+
     public void updateOrder(){
         System.out.println("Order ID: ");
         new OrderServiceImpl().updateOrderById(new Scanner(System.in).nextInt());
