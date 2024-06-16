@@ -111,9 +111,9 @@ public class View {
             System.out.print("[+] Choose your option: ");
             int op = new Scanner(System.in).nextInt();
             switch(op){
-                case 1-> customerController.queryAllCustomers();
-                case 2-> orderController.queryAllOrders();
-                case 3-> productController.queryAllProducts();
+                case 1-> customerController.queryAllCustomers().forEach(System.out::println);
+                case 2-> orderController.queryAllOrders().forEach(System.out::println);
+                case 3-> productController.queryAllProducts().forEach(System.out::println);
                 case 0 -> {
                     return;
                 }
